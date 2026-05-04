@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SODAK Institution - Upskill in Tech That Matters</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a1f5e;
+    --cobalt: #2e3799;
+    --sky: #4a90d9;
+    --accent: #f5a623;
+    --light: #f4f6fb;
+    --white: #ffffff;
+    --text: #1c1c2e;
+    --muted: #6b7280;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--light);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.6rem; color: var(--navy); letter-spacing: -0.5px; }
+  .logo span { color: var(--sky); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--cobalt); }
+  .nav-cta {
+    background: var(--navy); color: var(--white);
+    padding: .55rem 1.4rem; border-radius: 50px;
+    text-decoration: none; font-size: 0.88rem; font-weight: 600;
+    transition: background .2s, transform .15s;
+  }
+  .nav-cta:hover { background: var(--cobalt); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+    padding: 7rem 5% 4rem;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--cobalt) 60%, #3a5bd9 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(74,144,217,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -15%; left: 20%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(245,166,35,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-text { position: relative; z-index: 2; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #aec6f0;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    padding: .35rem 1rem; border-radius: 50px; margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2.8rem, 5vw, 4.2rem); line-height: 1.05;
+    color: var(--white); margin-bottom: 1.5rem;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero p {
+    font-size: 1.05rem; color: rgba(255,255,255,0.75);
+    line-height: 1.8; max-width: 480px; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: var(--navy);
+    padding: .85rem 2rem; border-radius: 50px;
+    text-decoration: none; font-weight: 700; font-size: 0.95rem;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 20px rgba(245,166,35,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,166,35,0.5); }
+  .btn-ghost {
+    border: 2px solid rgba(255,255,255,0.4); color: var(--white);
+    padding: .85rem 2rem; border-radius: 50px;
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    transition: background .2s, border-color .2s;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); }
+
+  .hero-right { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 1rem; padding-left: 3rem; }
+  .stat-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px; padding: 1.2rem 1.6rem;
+    color: var(--white);
+    animation: floatIn 0.8s ease both;
+  }
+  .stat-card:nth-child(2) { animation-delay: .15s; margin-left: 2rem; }
+  .stat-card:nth-child(3) { animation-delay: .3s; }
+  @keyframes floatIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+  .stat-number { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+  .stat-label { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: .2rem; }
+
+  .logos-strip {
+    display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;
+    padding: .8rem 1rem; background: rgba(255,255,255,0.08);
+    border-radius: 12px; border: 1px solid rgba(255,255,255,0.15);
+  }
+  .logos-strip span { font-size: 0.72rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-right: .4rem; }
+  .logo-pill {
+    background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9);
+    font-size: 0.78rem; font-weight: 600;
+    padding: .3rem .8rem; border-radius: 50px;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 5rem 5%; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--cobalt); margin-bottom: .6rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(1.8rem, 3vw, 2.8rem); color: var(--navy); margin-bottom: 1rem; line-height: 1.15;
+  }
+  .section-sub { color: var(--muted); max-width: 560px; line-height: 1.75; margin-bottom: 3rem; }
+
+  /* ── ABOUT ── */
+  .about { background: var(--white); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .about-visual {
+    background: linear-gradient(135deg, var(--navy), var(--cobalt));
+    border-radius: 24px; padding: 3rem 2.5rem;
+    color: var(--white); position: relative; overflow: hidden;
+  }
+  .about-visual::before {
+    content: '';
+    position: absolute; top: -30px; right: -30px;
+    width: 180px; height: 180px;
+    background: rgba(255,255,255,0.06); border-radius: 50%;
+  }
+  .about-visual h3 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+  .about-visual p { font-size: 0.95rem; line-height: 1.8; color: rgba(255,255,255,0.8); }
+  .about-points { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: .7rem; }
+  .about-points li { display: flex; align-items: center; gap: .7rem; font-size: 0.9rem; color: rgba(255,255,255,0.85); }
+  .about-points li::before { content: '✓'; background: var(--accent); color: var(--navy); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; flex-shrink: 0; }
+
+  /* ── COURSES ── */
+  .courses { background: var(--light); }
+  .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .course-card {
+    background: var(--white); border-radius: 20px; padding: 1.8rem;
+    border: 1px solid var(--border);
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    cursor: default;
+  }
+  .course-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(30,40,100,0.1); border-color: var(--sky); }
+  .course-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .course-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--navy); margin-bottom: .6rem; }
+  .course-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+  .tag {
+    background: #eef2ff; color: var(--cobalt);
+    font-size: 0.72rem; font-weight: 600; padding: .25rem .65rem;
+    border-radius: 50px;
+  }
+  .course-list { list-style: none; margin-top: .8rem; display: flex; flex-direction: column; gap: .4rem; }
+  .course-list li { font-size: 0.84rem; color: var(--muted); padding-left: 1rem; position: relative; }
+  .course-list li::before { content: '→'; position: absolute; left: 0; color: var(--sky); font-size: 0.75rem; }
+
+  /* ── MENTORS ── */
+  .mentors { background: var(--white); }
+  .mentors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+  .mentor-card {
+    background: var(--light); border-radius: 20px; padding: 1.5rem;
+    text-align: center; border: 1px solid var(--border);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .mentor-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(30,40,100,0.1); }
+  .mentor-avatar {
+    width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 1rem;
+    background: linear-gradient(135deg, var(--cobalt), var(--sky));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--white);
+  }
+  .mentor-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--navy); }
+  .mentor-role { font-size: 0.78rem; color: var(--muted); margin: .3rem 0; }
+  .mentor-company {
+    display: inline-block; background: var(--navy); color: var(--white);
+    font-size: 0.7rem; font-weight: 600; padding: .2rem .7rem; border-radius: 50px; margin-top: .4rem;
+  }
+
+  /* ── LAUNCHPAD ── */
+  .launchpad { background: var(--light); }
+  .launchpad-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .lp-card {
+    background: var(--white); border-radius: 20px; padding: 2rem;
+    border: 1px solid var(--border); display: flex; gap: 1.2rem; align-items: flex-start;
+    transition: transform .2s;
+  }
+  .lp-card:hover { transform: translateY(-3px); }
+  .lp-icon {
+    width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--navy), var(--cobalt));
+    display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+  }
+  .lp-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: .4rem; }
+  .lp-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── REVIEWS ── */
+  .reviews { background: var(--navy); }
+  .reviews .section-title { color: var(--white); }
+  .reviews .section-label { color: var(--accent); }
+  .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .review-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; padding: 1.8rem;
+    transition: background .2s;
+  }
+  .review-card:hover { background: rgba(255,255,255,0.11); }
+  .stars { color: var(--accent); font-size: 1rem; letter-spacing: 2px; margin-bottom: 1rem; }
+  .review-card p { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.75; }
+  .reviewer { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-top: 1.2rem; font-weight: 500; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--cobalt), var(--sky));
+    text-align: center; padding: 5rem 5%;
+  }
+  .cta-section h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--white); font-weight: 800; margin-bottom: 1rem; }
+  .cta-section p { color: rgba(255,255,255,0.8); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.8; }
+  .cta-contacts { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
+  .contact-chip {
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    color: var(--white); border-radius: 50px; padding: .6rem 1.4rem;
+    font-size: 0.9rem; font-weight: 500; text-decoration: none;
+    transition: background .2s;
+  }
+  .contact-chip:hover { background: rgba(255,255,255,0.25); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0f1340; color: rgba(255,255,255,0.5);
+    text-align: center; padding: 2rem 5%; font-size: 0.85rem;
+  }
+  footer a { color: var(--sky); text-decoration: none; }
+
+  /* ── ENROLL ── */
+  .enroll { background: var(--white); }
+  .enroll-inner {
+    display: grid; grid-template-columns: 1fr 1.55fr; gap: 4rem; align-items: start; margin-top: 2rem;
+  }
+  .enroll-info-box {
+    background: linear-gradient(135deg, var(--navy), var(--cobalt));
+    border-radius: 20px; padding: 2.2rem;
+    color: var(--white); position: relative; overflow: hidden;
+  }
+  .enroll-info-box::before {
+    content: ''; position: absolute; top: -30px; right: -30px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.06); border-radius: 50%;
+  }
+  .enroll-info-box h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: .8rem; }
+  .enroll-info-box p { font-size: 0.9rem; color: rgba(255,255,255,0.78); line-height: 1.75; margin-bottom: 1.4rem; }
+  .enroll-features { list-style: none; display: flex; flex-direction: column; gap: .65rem; margin-bottom: 1.6rem; }
+  .enroll-features li { display: flex; align-items: center; gap: .65rem; font-size: 0.88rem; color: rgba(255,255,255,0.85); }
+  .enroll-features li::before { content: '✓'; background: var(--accent); color: var(--navy); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; flex-shrink: 0; }
+  .courses-chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .chip-label { font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; width: 100%; margin-bottom: .2rem; }
+  .chip {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.88); font-size: 0.76rem; font-weight: 600;
+    padding: .3rem .8rem; border-radius: 50px;
+  }
+  .form-frame {
+    border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 40px rgba(30,40,100,0.08);
+  }
+  .form-frame iframe { width: 100%; height: 780px; border: none; display: block; }
+  @media (max-width: 900px) {
+    .enroll-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .form-frame iframe { height: 720px; }
+  }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 6rem 5% 3rem; }
+    .hero-right { padding-left: 0; }
+    .about-grid { grid-template-columns: 1fr; }
+    .launchpad-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">SOD<span>AK</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#mentors">Mentors</a></li>
+    <li><a href="#launchpad">Launchpad</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#enroll">Enroll</a></li>
+  </ul>
+  <a href="#enroll" class="nav-cta">Enroll Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">SODAK Institution · www.sodak.in</div>
+    <h1>Upskill Your Students in <em>Tech That Matters.</em></h1>
+    <p>Short-term, intensive modules built for campus — under 10 days — guided by industry mentors from top MNCs. Real tools. Real skills. Day-one ready.</p>
+    <div class="hero-btns">
+      <a href="tel:+916381474648" class="btn-primary">Call +91 6381474648</a>
+      <a href="mailto:sodakedutech@gmail.com" class="btn-ghost">sodakedutech@gmail.com</a>
+    </div>
+    <div class="logos-strip" style="margin-top:2.5rem;">
+      <span>Mentors from</span>
+      <span class="logo-pill">Amazon</span>
+      <span class="logo-pill">Accenture</span>
+      <span class="logo-pill">TCS</span>
+      <span class="logo-pill">Zoho</span>
+      <span class="logo-pill">Northern Arc</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-card">
+      <div class="stat-number">200+</div>
+      <div class="stat-label">Students upskilled & placed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">≤10</div>
+      <div class="stat-label">Days per intensive module</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">20+</div>
+      <div class="stat-label">Industry expert trainers</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-label">About the Programme</p>
+      <h2 class="section-title">Built for Campus. Designed for Industry.</h2>
+      <p class="section-sub">Sodak Institution bridges the gap between academic learning and industry readiness. Every session is guided by real practitioners from top MNCs — not just theory.</p>
+    </div>
+    <div class="about-visual">
+      <h3>Why Sodak?</h3>
+      <p>Our short-term intensive modules fit into any college calendar while delivering deep, practical exposure to tools students will use on day one of the job.</p>
+      <ul class="about-points">
+        <li>Fits within your academic calendar (under 10 days)</li>
+        <li>Mentors actively working at Amazon, TCS, Accenture & more</li>
+        <li>Hands-on projects, not just slides</li>
+        <li>Industry-recognised certificate + portfolio</li>
+        <li>Career services: mock interviews, resume review, job board</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section class="courses" id="courses">
+  <p class="section-label">Course Curriculum</p>
+  <h2 class="section-title">What You'll Learn</h2>
+  <p class="section-sub">Eight job-focused tracks taught by industry experts. Pick what fits your students' goals.</p>
+  <div class="courses-grid">
+
+    <div class="course-card">
+      <div class="course-icon">☁️</div>
+      <h3>Cloud AWS</h3>
+      <ul class="course-list">
+        <li>EC2, S3, VPC, IAM & RDS</li>
+        <li>Auto Scaling & Load Balancing</li>
+        <li>CloudWatch Monitoring & AWS CLI</li>
+        <li>Real-world project deployment</li>
+      </ul>
+      <div class="course-tags"><span class="tag">AWS</span><span class="tag">Cloud</span></div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">🔷</div>
+      <h3>Cloud Azure</h3>
+      <ul class="course-list">
+        <li>Azure VMs, Blob Storage, VNet</li>
+        <li>Azure Active Directory & RBAC</li>
+        <li>Azure Monitor & Alerts</li>
+        <li>Hands-on cloud project</li>
+      </ul>
+      <div class="course-tags"><span class="tag">Azure</span><span class="tag">Cloud</span></div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">⚙️</div>
+      <h3>AWS DevOps</h3>
+      <ul class="course-list">
+        <li>CI/CD with CodePipeline & CodeDeploy</li>
+        <li>Terraform & CloudFormation (IaC)</li>
+        <li>Docker & Kubernetes on AWS (EKS)</li>
+        <li>End-to-end DevOps workflow</li>
+      </ul>
+      <div class="course-tags"><span class="tag">DevOps</span><span class="tag">Docker</span><span class="tag">K8s</span></div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">🔧</div>
+      <h3>Azure DevOps</h3>
+      <ul class="course-list">
+        <li>Azure Repos, Boards & Pipelines</li>
+        <li>Artifact & Release management</li>
+        <li>Monitoring & feedback loops</li>
+        <li>Live project deployment</li>
+      </ul>
+      <div class="course-tags"><span class="tag">Azure</span><span class="tag">CI/CD</span></div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">🤖</div>
+      <h3>Machine Learning</h3>
+      <ul class="course-list">
+        <li>Python for ML (NumPy, Pandas)</li>
+        <li>Supervised & Unsupervised Learning</li>
+        <li>Model training, evaluation & tuning</li>
+        <li>End-to-end ML project</li>
+      </ul>
+      <div class="course-tags"><span class="tag">Python</span><span class="tag">Scikit-learn</span></div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">🧱</div>
+      <h3>DataBricks</h3>
+      <ul class="course-list">
+        <li>Apache Spark fundamentals</li>
+        <li>Delta Lake & data pipelines</li>
+        <li>MLflow for experiment tracking</li>
+        <li>Real-world data engineering</li>
+      </ul>
+      <div class="course-tags"><span class="tag">Spark</span><span class="tag">Delta Lake</span></div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">🧠</div>
+      <h3>DSA (Interview Prep)</h3>
+      <ul class="course-list">
+        <li>Arrays, Strings, Linked Lists</li>
+        <li>Trees, Graphs & Heaps</li>
+        <li>Dynamic Programming</li>
+        <li>LeetCode-style interview prep</li>
+      </ul>
+      <div class="course-tags"><span class="tag">DSA</span><span class="tag">Interviews</span></div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">📊</div>
+      <h3>Data Science</h3>
+      <ul class="course-list">
+        <li>Python, Pandas & data wrangling</li>
+        <li>Exploratory data analysis & visualisation</li>
+        <li>Statistics, regression & classification</li>
+        <li>Real-world capstone project</li>
+      </ul>
+      <div class="course-tags"><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Analytics</span></div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">🔐</div>
+      <h3>Cyber Security</h3>
+      <ul class="course-list">
+        <li>Ethical hacking & VAPT</li>
+        <li>Web security (OWASP Top 10)</li>
+        <li>Tools: Nmap, Wireshark, Metasploit</li>
+        <li>SOC & incident response</li>
+      </ul>
+      <div class="course-tags"><span class="tag">Security</span><span class="tag">Ethical Hacking</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MENTORS -->
+<section class="mentors" id="mentors">
+  <p class="section-label">Expert Mentors</p>
+  <h2 class="section-title">Learn from People Who Solve Real-World Problems</h2>
+  <p class="section-sub">20+ actively working professionals from top MNCs — not retired academics. Every trainer brings real industry experience into the classroom.</p>
+  <div class="mentors-grid">
+    <div class="mentor-card">
+      <div class="mentor-avatar">N</div>
+      <h4>Nithesh</h4>
+      <div class="mentor-role">Cloud & DevOps Specialist</div>
+      <span class="mentor-company">Amazon</span>
+    </div>
+    <div class="mentor-card">
+      <div class="mentor-avatar">SV</div>
+      <h4>Sai Varun</h4>
+      <div class="mentor-role">Software Engineer</div>
+      <span class="mentor-company">Zoho Corp</span>
+    </div>
+    <div class="mentor-card">
+      <div class="mentor-avatar">HR</div>
+      <h4>Harish Raj</h4>
+      <div class="mentor-role">Data & ML Engineer</div>
+      <span class="mentor-company">Northern Arc</span>
+    </div>
+    <div class="mentor-card">
+      <div class="mentor-avatar">RP</div>
+      <h4>Rajendhira Prasath</h4>
+      <div class="mentor-role">Technology Consultant</div>
+      <span class="mentor-company">Accenture</span>
+    </div>
+    <div class="mentor-card">
+      <div class="mentor-avatar">V</div>
+      <h4>Vinodini</h4>
+      <div class="mentor-role">Senior Analyst</div>
+      <span class="mentor-company">Accenture</span>
+    </div>
+    <div class="mentor-card">
+      <div class="mentor-avatar">Ne</div>
+      <h4>Neeharika</h4>
+      <div class="mentor-role">Digital</div>
+      <span class="mentor-company">TCS</span>
+    </div>
+  </div>
+</section>
+
+<!-- LAUNCHPAD -->
+<section class="launchpad" id="launchpad">
+  <p class="section-label">Sodak Launchpad</p>
+  <h2 class="section-title">Career Services</h2>
+  <p class="section-sub">A career-focused membership that turns graduates into professionals — resume coaching, interview prep, and portfolio building all in one.</p>
+  <div class="launchpad-grid">
+    <div class="lp-card">
+      <div class="lp-icon">📄</div>
+      <div>
+        <h4>Resume Review & LinkedIn Optimisation</h4>
+        <p>Build a standout resume with guided mentor videos. Learn to optimise your LinkedIn profile for better visibility to recruiters.</p>
+      </div>
+    </div>
+    <div class="lp-card">
+      <div class="lp-icon">🎯</div>
+      <div>
+        <h4>1:1 Mock Interviews</h4>
+        <p>Sit for 1:1 mock interviews with industry experts who simulate real-world interview scenarios and give brutally honest feedback.</p>
+      </div>
+    </div>
+    <div class="lp-card">
+      <div class="lp-icon">🌐</div>
+      <div>
+        <h4>Alumni Community & Job Boards</h4>
+        <p>Access job opportunities and a career portal with weekly updates on new openings across top companies.</p>
+      </div>
+    </div>
+    <div class="lp-card">
+      <div class="lp-icon">🏆</div>
+      <div>
+        <h4>Certification & Portfolio</h4>
+        <p>Receive an industry-recognised certificate on completion. Build a project portfolio that demonstrates hands-on skills from day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <p class="section-label">Student Reviews</p>
+  <h2 class="section-title">What Our Students Say</h2>
+  <br>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>The AWS DevOps module was incredibly practical. Within a week, I had hands-on experience with CI/CD pipelines that I directly applied in my first job. Nothing like classroom theory.</p>
+      <div class="reviewer">— Arjun Mehta</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>The Machine Learning course gave me the edge I needed. The projects I built during the 6-day module became my portfolio — and that's literally what got me shortlisted.</p>
+      <div class="reviewer">— Priya Nair</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>I was sceptical about a 10-day course making a real difference, but Sodak proved me wrong. The DSA sessions were intense and interview-focused. I cleared 3 coding rounds back-to-back.</p>
+      <div class="reviewer">— Rahul Krishnamurthy</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>The 1:1 mock interviews were a game changer. The mentor's feedback helped me fix my communication style completely. The resume review helped me stand out among 300+ applicants.</p>
+      <div class="reviewer">— Sneha Subramaniam</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to Upskill Your Students?</h2>
+  <p>Join 200+ students who have upskilled with Sodak and landed their dream jobs. Reach out to discuss a programme for your campus.</p>
+  <a href="tel:+916381474648" class="btn-primary" style="display:inline-block;">Get in Touch</a>
+  <div class="cta-contacts">
+    <a href="tel:+916381474648" class="contact-chip">📞 Mr Manoj Kumar — +91 6381474648</a>
+    <a href="tel:+918939366259" class="contact-chip">📞 Mr Rajendhira Prasath — +91 8939366259</a>
+    <a href="mailto:sodakedutech@gmail.com" class="contact-chip">✉️ sodakedutech@gmail.com</a>
+    <a href="https://www.sodak.in" class="contact-chip" target="_blank">🌐 www.sodak.in</a>
+    <a href="https://www.linkedin.com/company/sodak-edutech/" class="contact-chip" target="_blank">🔗 LinkedIn</a>
+  </div>
+</section>
+
+<!-- ENROLL -->
+<section class="enroll" id="enroll">
+  <p class="section-label">Register Now</p>
+  <h2 class="section-title">Enroll at SODAK</h2>
+  <p class="section-sub">Fill in the form below — whether you're an individual student or a college placement coordinator, we'll get back to you within 24 hours.</p>
+  <div class="enroll-inner">
+    <div class="enroll-info-box">
+      <h3>Why Enroll with Us?</h3>
+      <p>Industry-led, hands-on training designed to make you job-ready. Batches for individuals and colleges alike.</p>
+      <ul class="enroll-features">
+        <li>Morning, afternoon & evening batches</li>
+        <li>Online and offline modes available</li>
+        <li>College group enrollments welcome</li>
+        <li>Industry-recognised certification</li>
+        <li>1:1 mentor support throughout</li>
+        <li>Placement assistance included</li>
+      </ul>
+      <div class="courses-chips">
+        <span class="chip-label">Courses Available</span>
+        <span class="chip">Cloud AWS</span>
+        <span class="chip">Cloud Azure</span>
+        <span class="chip">AWS DevOps</span>
+        <span class="chip">Azure DevOps</span>
+        <span class="chip">Cyber Security</span>
+        <span class="chip">DataBricks</span>
+        <span class="chip">Machine Learning</span>
+        <span class="chip">Data Science</span>
+        <span class="chip">DSA – Interview Prep</span>
+      </div>
+    </div>
+    <div class="form-frame">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSeiiAkT5KdqeLK_Fta3CCdSpx-pQhc5L4DDM5XxWA5XsRw68w/viewform?embedded=true"
+        frameborder="0" marginheight="0" marginwidth="0"
+        title="SODAK EDUTECH Course Enrollment Form">
+        Loading…
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 SODAK Institution · <a href="https://www.sodak.in">www.sodak.in</a> · <a href="mailto:sodakedutech@gmail.com">sodakedutech@gmail.com</a> · <a href="https://www.linkedin.com/company/sodak-edutech/" target="_blank">LinkedIn</a></p>
+</footer>
+
+</body>
+</html>
